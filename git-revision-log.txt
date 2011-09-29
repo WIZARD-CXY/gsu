@@ -1,0 +1,33 @@
+
+* 如何修改初始提交记录？
+
+$ git --version
+git version 1.7.1
+
+假设现在有三次提交：
+$ git init
+$ echo "one" >>test
+$ git add test
+$ git commit -m "initialize"
+$ echo "two" >>test
+$ git commit -a -m "second commit"
+$ echo "three" >>test
+$ git commit -a -m "third commit"
+
+Git 仓库里的提交如下：
+$ git log --oneline
+a10d40b third commit
+a26fc97 second commit
+4ae507c initialize
+
+现在，我想修改初始提交，也就是 test 的内容为“one”的提交说明：
+
+   "initialize" ==> "initialize commit"
+
+解决方法（参考：Git用户手册第五章 -- Rewriting a single commit）：
+
+$ git tag bad 4ae507c
+$ git checkout bad
+$ # make changes here and update the index
+$ git commit --amend
+$ git rebase --onto HEAD bad master
