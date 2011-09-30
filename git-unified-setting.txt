@@ -13,9 +13,9 @@ i18n.logOutputEncoding utf-8
 
 Windows 下的设置（默认 GBK 编码）
 
-$ git config --global i18n.commitEncoding=utf-8
-$ git config --global i18n.logOutputEncoding=gbk
-$ git config --global gui.encoding=utf-8
+$ git config --global i18n.commitEncoding utf-8
+$ git config --global i18n.logOutputEncoding gbk
+$ git config --global gui.encoding utf-8
 $ echo "export LESSCHARSET=utf-8" >>etc/profile
 
 * ls 会显示乱码                                                     :Windows:
