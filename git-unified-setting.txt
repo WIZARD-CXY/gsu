@@ -1,0 +1,63 @@
+
+在 Windows 下推送更新，在 Linux 下会显示乱码。但是，使用 iconv 转换编码则能正常
+显示：
+
+$ iconv -f gbk -t utf8 filename...
+
+* git-log 会显示乱码                                                  :Linux:
+
+Linux 下的设置(默认 UTF-8 编码)
+
+i18n.commitEncoding utf-8
+i18n.logOutputEncoding utf-8
+
+Windows 下的设置（默认 GBK 编码）
+
+$ git config --global i18n.commitEncoding=utf-8
+$ git config --global i18n.logOutputEncoding=gbk
+$ git config --global gui.encoding=utf-8
+$ echo "export LESSCHARSET=utf-8" >>etc/profile
+
+* ls 会显示乱码                                                     :Windows:
+
+在 Git 的安装目录中，找到 etc/profile，加入：
+
+alias ls='ls --show-control-chars --auto'
+
+* git-status 不能显示中文                                     :Linux:Windows:
+
+Linux 下的解决方法：
+
+$ git status | ascii2uni -a K
+
+缺点： 没有颜色高亮
+
+另外，一种可能的解决方案是，不要使用中文的文件名
+
+* 强制使用 UTF-8 编码                                                   :Git:
+
+i18n.commitEncoding utf-8
+
+* 克服 Windows Linux 各个平台的换行符所造成的差异             :Linux:Windows:
+
+解决问题的思路是，在仓库中统一使用 LF 作为行结束符。注意，在现在流行的操作系统
+中，也就是 Windows、Mac、Linux 中，它们的行结束符都是不一样的。
+
+Windows     \r\n
+Mac         \r
+UNIX/Linux  \n
+
+Linux:
+
+$ git config --global core.autocrlf input
+
+Windows:
+
+$ git config --global core.autocrlf true
+
+关于行结束符还有一段历史，感兴趣的可以在网络上搜索。
+
+* 使 msysgit 的 Bash 中可以正常输入中文                             :Windows:
+
+$ echo "set output-meta on" >>etc/profile
+$ echo "set convert-meta off" >>etc/profile
