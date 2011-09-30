@@ -4,7 +4,7 @@
 
 $ iconv -f gbk -t utf8 filename...
 
-* git-log 会显示乱码                                                  :Linux:
+* git-log 会显示乱码                                          :Linux:Windows:
 
 Linux 下的设置(默认 UTF-8 编码)
 
@@ -36,7 +36,7 @@ $ git status | ascii2uni -a K
 
 * 强制使用 UTF-8 编码                                                   :Git:
 
-i18n.commitEncoding utf-8
+$ git config --global i18n.commitEncoding utf-8
 
 * 克服 Windows Linux 各个平台的换行符所造成的差异             :Linux:Windows:
 
