@@ -1,0 +1,83 @@
+
+master: 追踪远程主分支
+me:     追踪远程个人分支
+work:   本地分支（用于工作）
+
+* 工作流程
+
+** 开发者
+
+当工作完成，需要提交时，合并到 me 分支，然后推送到远程分支：
+
+$ git checkout me
+$ git merge work
+$ git push -u <remote-repo> me (1)
+
+(1) 推送到远程仓库中，这个命令用于推送本地更新。同时它还设置 me 分支用于跟踪远程
+仓库的分支，这个命令只需使用一次。以后如果需要推送到远程的个人仓库中，则可以简单
+地使用“git push”。如果远程仓库的名字是 knuth，则可以上面的命令可以相应地调整为：
+
+$ git push -u knuth me
+
+如果远程仓库是一个 URL，比如： knuth@192.168.2.100:~/taocp.git，则上面的命令就
+要调整为：
+
+$ git push -u knuth@192.168.2.100:~/taocp.git me
+
+为了缩短输入的次数，我们可以这样做：
+
+$ git remote add knuth knuth@192.168.2.100:~/taocp.git
+$ git push -u knuth me
+
+以后，每次推送的时候，就可以使用下面的命令：
+
+$ git checkout me
+$ git push
+
+如果远程的主分支有更新了，我们可以这样同步：
+
+$ git checkout master
+$ git pull
+
+最后，我们将自己的工作成果和主分支的结果合并（假设你的 me 分支和 work 分支已经同
+步，如果不同步，则同步完了以后再进行以下操作）：
+
+$ git checkout me
+$ git merge work
+$ git merge master
+
+这时候，可能会发生冲突（这样也是很正常的情况，谁会写出一模一样的代码呢？），则我
+们需要解决冲突，完了以后就可以推送到远程的个人分支了：
+
+$ git checkout me
+$ git push
+
+但是，发生冲突总是会让我感到厌烦，因为那样的话，增加一个 commit。而这个 commit
+是不算在 git reset 中的。比如，修复了一次冲突：
+
+$ git reset HEAD~1
+
+是不会回到合并冲突之前的，要完成这个任务，需要使用这个命令：
+
+$ git reset --hard ORIG_HEAD
+
+** 管理员
+
+管理员需要拉取各个开发者的个人分支，完成审核合并之后，然后推送到主分支。
+
+注意，管理员的本地仓库中，其实只需要两个分支。一个分支是 master，另一个分支是
+work。相对于开发者，管理员的 master 分支和 me 分支合并到一起了。当然，如果为了清
+晰和保险，也可以新建一个分支用于测试。
+
+管理员拉取各个开发者的个人分支，简短信息参见 gittutorial(1) 的 “USING GIT FOR
+COLLABORATION”，详细信息参见 Git 用户手册（linux 下位于
+/usr/share/doc/git-doc/user-manual.txt）：
+
+$ git remote add knuth username@192.168.2.100:~knuth/taocp.git (1)
+$ git fetch knuth (2)
+$ git log master..knuth/master (3)
+
+(1) 增加一个远程仓库的别名，username 是开发者在 192.168.2.100 中的用户名，比如 michael
+(2) 拉取开发者的工作成果
+(3) 查看开发者所做的修改
+
