@@ -1,0 +1,43 @@
+
+运行以下的命令，创建了一个空的 Git 仓库之后：
+
+$ mkdir -v test
+$ cd test
+$ git init
+
+这时，当前目录下生成了一个隐藏目录“.git”，这个目录的内如如下：
+
+branches/
+config
+description
+HEAD
+hooks/
+info/
+objects/
+refs/
+
+如果往仓库中提交了内容，则仓库会发生变化：
+
+$ echo "hello" >> hello
+$ git add .
+$ git commit -m "1st commit"
+
+这时，当前目录下“.git”目录的内容为：
+
+branches/
+COMMIT_EDITMSG
+config
+description
+HEAD
+hooks/
+index
+info/
+logs/
+objects/
+refs/
+
+现在的仓库新增了 2 个文件和 1 个目录：
+
+COMMIT_EDITMSG
+index
+logs/
