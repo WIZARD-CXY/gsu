@@ -1,0 +1,23 @@
+
+假定我们现在有两个分支，一个是 master 分支，一个是 me 分支。master 分支是克隆一
+个远程仓库而生成的，而 me 分支则是个人开发的分支。
+
+现在有两个仓库：一个是原来克隆的仓库，一个是自己的远程仓库。假定这两个仓库的信息
+如下：
+
+origin: https://github.com/git/git.git
+private: git@github.com:user/git.git
+
+其中，origin 是原来克隆的远程仓库名字，而 private 则是自己的远程仓库的名字。现在，我
+们需要使用本地的 me 分支来追踪远程仓库 private。
+
+解决方案：
+
+$ git remote add private git@github.com:user/git.git
+$ git config remote.private.push refs/heads/me:refs/heads/master #1
+$ git config branch.me.remote private
+$ git config branch.me.merge refs/heads/master #2
+
+1. 使用本地的 me 分支更新远程仓库 private 的 master 分支
+2. 拉取后，将远程仓库的 master 分支合并到本地的 me 分支，这样也设置了 me 追踪
+   master
