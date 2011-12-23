@@ -7,14 +7,18 @@ $ git init
 
 这时，当前目录下生成了一个隐藏目录“.git”，这个目录的内如如下：
 
-branches/
-config
-description
-HEAD
-hooks/
-info/
-objects/
-refs/
+branches/    新版本的 Git 不再使用
+config       包含了项目特有的配置选项
+description  仅供 GitWeb 程序使用
+HEAD         指向当前分支
+hooks/       包住了客户端或服务端钩子脚本
+info/        保存了一份不希望在 .gitignore 文件中管理的忽略模式的全局可执行文件
+objects/     存储所有数据内容
+refs/        存储指向数据（分支）的提交对象的指针
+
+新版本的 Git 不再使用 branches 目录，description 文件仅供 GitWeb 程序使用。
+config 文件包含了项目特有的配置选项，info 目录保存了一份不希望在 .gitignore 文件
+中管理的忽略模式的全局可执行文件。hooks 目录包住了客户端或服务端钩子脚本。
 
 如果往仓库中提交了内容，则仓库会发生变化：
 
@@ -24,17 +28,17 @@ $ git commit -m "1st commit"
 
 这时，当前目录下“.git”目录的内容为：
 
-branches/
+branches/       新版本的 Git 不再使用
 COMMIT_EDITMSG
-config
-description
-HEAD
-hooks/
-index
-info/
+config          包含了项目特有的配置选项
+description     仅供 GitWeb 程序使用
+HEAD            指向当前分支
+hooks/          包含了客户端或服务端钩子脚本
+index           保存了暂存区域信息
+info/           保存了一份不希望在.gitignore文件中管理的忽略模式的全局可执行文件
 logs/
-objects/
-refs/
+objects/        存储所有数据内容
+refs/           存储指向数据（分支）的提交对象的指针
 
 现在的仓库新增了 2 个文件和 1 个目录：
 
