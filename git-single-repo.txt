@@ -1,0 +1,16 @@
+
+* 拉取远程仓库的单个分支
+
+$ mkdir -v test
+$ cd test
+$ git init
+$ git remote add origin file:///home/android/work/epson
+$ git fetch master:refs/remotes/origin/master
+$ git checkout -b master origin/master
+
+* 建立一个公开的仓库
+
+$ git clone --bare ~/work/epson
+$ scp -r epson.git username@server
+$ cd ~/work/epson
+$ git checkout -b me origin/master
