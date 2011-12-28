@@ -1,0 +1,58 @@
+
+* 子树合并
+
+子树合并可以将一个项目（A）映射为另一个项目（B）的子目录。
+
+下面是一个例子：
+
+$ mkdir -v /tmp/{ocean,river}
+$ cd /tmp/ocean
+$ git init
+$ echo "read me" >>README
+$ git commit -a -m "ocean: 1st commit"
+$ cd /tmp/river
+$ git init
+$ echo "the Changjiang River" >>list
+$ git commit -a -m "river: 1st commit"
+$ cd /tmp
+$ git clone --bare file:///tmp/ocean
+$ git clone --bare file:///tmp/river
+$ scp -r /tmp/{ocean.git,river.git} username@machine:~/
+
+上面的命令建立了两个仓库，并把这两个仓库公开到某个机器上。在 ocean 仓库中有一个
+README 文件，在 river 仓库中有个 list 文件。
+
+现在，我们可以进入 ocean 仓库，把 river 仓库作为 ocean 仓库的子目录：
+
+$ cd /tmp/ocean
+$ git remote add origin username@machine:~/ocean.git
+$ git branch.master.remote origin
+$ git branch.master.merge refs/heads/master
+$ git remote add river username@machine:~/river.git
+$ git fetch river
+$ git checkout -b river_branch river/master
+$ git checkout master
+$ git read-tree --prefix=river/ -u river_branch
+
+现在，我们的 ocean 仓库的 master 分支中，已经有了一个 river 的子目录，并且我们的
+暂存区中也已经加入了 river 子目录的内容。我们现在可以提交这个归并。
+
+$ git commit -m "Make river repo as subtree"
+
+假设现在上游的 river 仓库已经有了更新，我们需要 master 分支中的子目录和上游的同
+步，我们需要切换到 river_branch 分支。拉取上游的更新，然后合并到 master 分支中：
+
+$ git checkout river_branch
+$ git pull
+$ git checkout master
+$ git merge --squash -s subtree --no-commit river_branch
+
+我们的 master 分支的暂存区已经有了上游的更新结果，并且没有上游的提交历史信息。
+
+为了得到 river 子目录和 river_branch 分支的区别，我们可以运行：
+
+$ git diff-tree -p river_branch
+
+比较和服务器拉取回来的 master 分支的区别：
+
+$ git diff-tree -p river/master
