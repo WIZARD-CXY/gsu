@@ -1,0 +1,102 @@
+
+        git-rebase 的工作原理
+
+======================================================================
+git rebase [-i | --interactive] [options] [--onto <newbase>]
+        <upstream> [<branch>]
+git rebase [-i | --interactive] [options] --onto <newbase>
+        --root [<branch>]
+
+git rebase --continue | --skip | --abort
+======================================================================
+
+1. git checkout <branch> (or remain)
+2. save <upstream>..HEAD to tmp area
+3. reset current branch to <upstream>,
+   or <newbase> if the --onto option was supplied.
+4. reapplied <upstream>..<branch> to current branch,
+   one by one, in order.
+
+See git-rebase(1) for detailed.
+
+(a) 假设现在我们的项目有这样的历史：
+
+    A   B   C
+    O<--O<--O   master
+    ^
+    |---O<--O   topic
+        D   E
+
+$ git rebase master topic
+               ^      ^
+               |      |
+           upstream <branch>
+
+运行了以上的命令之后，我们的项目将会变为：
+
+           HEAD
+            |
+            v
+    A   B   C   D'  E'
+    O<--O<--O<--O<--O    topic
+    ^       ^
+    |       |
+ ORIG_HEAD master
+
+(b) 假设我们的项目有这样的历史：
+
+    O<--O<--O    master
+    ^
+     \
+      --O<--O    next
+            ^
+            |
+            --O<--O    topic
+                  ^
+                  |
+                 HEAD
+
+$ git rebase --onto master    next   topic
+                      ^         ^      ^
+                    newbase upstream branch
+
+    1. git checkout topic
+
+    O<--O<--O    master
+    ^
+     \
+      --O<--O    next
+            ^
+            |
+            --O<--O    topic
+                  ^
+                  |
+                 HEAD
+
+    2. save next..topic to tmp area
+
+    3. reset current branch to master
+
+          HEAD
+            |
+            v
+    O<--O<--O    master
+    ^
+     \
+      --O<--O    next
+            ^
+            |
+            --O<--O    topic
+
+    4. reapplied next..topic to current branch, one by one, in order
+
+          master   HEAD
+            |       |
+            v       v
+    O<--O<--O<--O'<--O'    topic
+    ^
+     \
+      --O<--O    next
+
+参考资料
+[1] git-rebase(1)
