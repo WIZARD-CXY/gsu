@@ -1,0 +1,14 @@
+
+        Git 一些有用的 man 手册页
+
+git(1)                         关于 Git 的介绍
+
+gitrepository-layout(5)        解释 .git 的目录结构
+githooks(5)                    说明 Git 使用的“钩子”
+
+gittutorial(7)                 Git 的入门教程，第一部分
+gittutorial-2(7)               Git 的入门教程，第二部分
+gitcore-tutorial(7)            使用 Git 底层命令的教程
+gitglossary(7)                 关于 Git 的术语
+gitworkflows(7)                Git 项目的工作流程
+
