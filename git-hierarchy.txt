@@ -42,6 +42,10 @@ refs/           存储指向数据（分支）的提交对象的指针
 
 现在的仓库新增了 2 个文件和 1 个目录：
 
-COMMIT_EDITMSG
-index
-logs/
+COMMIT_EDITMSG  最后一次提交的说明信息
+index           仓库的索引文件，通常不会出现在纯仓库
+logs/           记录对引用的修改
+
+参考资料：
+[1] gitrepository-layout(5)
+[2] gitglossary(7)
