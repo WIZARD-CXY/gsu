@@ -46,6 +46,13 @@ COMMIT_EDITMSG  最后一次提交的说明信息
 index           仓库的索引文件，通常不会出现在纯仓库
 logs/           记录对引用的修改
 
+当你的仓库经历了拉取、合并和恢复以后，在 .git 中将会出现以下的文件：
+
+HEAD            指向当前分支
+FETCH_HEAD      记录最后一次使用 git fetch 得到的远程仓库的分支
+ORIG_HEAD       记录 HEAD 的前一个位置，由更新许多提交对象的命令创建
+MERGE_HEAD      记录合并时的提交对象
+
 参考资料：
 [1] gitrepository-layout(5)
 [2] gitglossary(7)
