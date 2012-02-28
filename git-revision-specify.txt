@@ -1,0 +1,64 @@
+
+        Git revision specifing
+
+1. full SHA1 object name (40-byte hexadecimal string)
+
+2. An output from git-describe
+
+3. A symbolic ref name
+
+4. A ref followed by the suffix '@' with a date specification enclosed in a
+   brace pair to specify the value of the ref at a prior point at a time.
+
+   Eg. ref@{yesterday}, ref@{1979-02-26 18:30:00}
+
+5. A ref follow by the suffix '@' with an ordinal specification enclosed in a
+   brace pair to specify the n-th prior value of that ref.
+
+   Eg. ref@{1}, ref@{2}
+
+6. @{1}, @{2}
+
+7. The special construct @{-<n>} means the <n>th branch checked out before the
+   current one.
+
+   Eg. @{-1}, @{-2}
+
+8. The suffix @{upstream} to a ref refers to the branch the ref is set to build
+   on top of. Missing ref defaults to the current branch.
+
+9. ref^
+
+10. ref~<n>
+
+11. A suffix ^ followed by an object type name enclosed in brace pair
+    (e.g. v0.99.8^{commit}) means the object could be a tag, and dereference the
+    tag recursively until an object of that type is found or the object cannot
+    be dereferenced anymore (in which case, barf). rev^0 introduced earlier is a
+    short-hand for rev^{commit}.
+
+12. A suffix ^ followed by an empty brace pair (e.g. v0.99.8^{}) means the
+    object could be a tag, and dereference the tag recursively until a non-tag
+    object is found.
+
+13. A colon, followed by a slash, followed by a text: this names a commit whose
+    commit message starts with the specified text. This name returns the
+    youngest matching commit which is reachable from any ref. If the commit
+    message starts with a !, you have to repeat that; the special sequence :/!,
+    followed by something else than ! is reserved for now.
+
+14. A suffix : followed by a path; this names the blob or tree at the given path
+    in the tree-ish object named by the part before the colon.
+
+15. A colon, optionally followed by a stage number (0 to 3) and a colon,
+    followed by a path; this names a blob object in the index at the given
+    path. Missing stage number (and the colon that follows it) names a stage 0
+    entry. During a merge, stage 1 is the common ancestor, stage 2 is the target
+    branch’s version (typically the current branch), and stage 3 is the version
+    from the branch being merged.
+
+    Eg. :0:hello.c, :2:hello.c :hello.c
+
+See also:
+
+[1] the part "SPECIFYING REVISIONS" of git-rev-parse(1)
