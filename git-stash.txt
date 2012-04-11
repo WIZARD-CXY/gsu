@@ -1,0 +1,26 @@
+
+假设我们的工作目录的状态变成了下面这个样子：在暂存区中提交了文件，然后又在这个基
+础上做了修改。
+
+现在，假设远程仓库在你最后一次拉取了之后又做了修改。你的朋友告诉你，如果你拉取了
+以后会有惊喜。
+
+你拉取了以后，希望新建一个分支浏览一下：
+
+$ git fetch
+$ git checkout -b test origin/master
+error: Entry 'filename' would be overwritten by merge. Cannot merge.
+
+并没有发生你所希望发生的事情，原因在于你的工作目录不是“干净”的。
+
+可以使用“git stash”储藏所做的修改，保持工作目录的“干净”。但是，这样带来了一
+个问题：你不能使用“git diff”来查看工作目录和暂存区的差异。
+
+有什么办法能够浏览一下那些“激动人心”的特性，而又不会搞乱你的工作目录呢？换句话
+说，你查看完了其他分支的内容以后，回到之前的分支，你不会丢失任何信息。
+
+$ git stash save --patch "working directory"
+$ git checkout -b test origin/master
+$ test...edit...compile...
+$ git checkout master
+$ git stash apply --index stash{0}
