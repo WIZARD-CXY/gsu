@@ -1,0 +1,27 @@
+
+                            将多个提交压制为一个提交
+
+假设我们的 Git 仓库中有这样的分支：
+
+    o <-- A <-- B <-- C    mydev
+    ^
+     `--- D <-- E          master
+
+现在，我们想把仓库的分支变为这样：
+
+    o <-- A <-- B <-- C    mydev
+    ^
+    `---- D <-- E <-- O'   master
+
+master 分支的 O' 这个提交包含了 mydev 分支的三个提交：A、B、C。
+
+为了实现这样的操作，我们可以这样做：
+
+$ git checkout master
+$ git merge --squash --no-commit mydev
+
+--squash       将目标分支上的所有更改全部应用到当前分支中
+--no-commit    无须自动生成和记录（合并）提交
+
+合并有可能失败，因此需要解决冲突以后再提交。我们也可以在合并的基础上继续工作，然
+后一并提交。
