@@ -24,3 +24,64 @@ $ git checkout -b test origin/master
 $ test...edit...compile...
 $ git checkout master
 $ git stash apply --index stash{0}
+
+* 从 git stash drop 中恢复丢弃的工作成果
+
+作为一个演示，我们建立一个仓库来说明具体的操作过程：
+
+$ mkdir /tmp/t
+$ cd /tmp/t
+$ git init
+$ echo "hello world" >> hello
+$ git add .
+$ git commit -m "1st commit"
+$ echo "changes in index" >> hello
+$ git add -u
+$ echo "changes in working directory" >> hello
+$ git stash save "test recover from git stash drop"
+
+$ git stash drop
+Dropped refs/stash@{0} (3a9eb4cb2882101e1ff92734b4057a4996ab2c6b)
+
+$ git fsck --unreachable | grep commit
+unreachable commit 5895816d11af466542ace82e6975d4ddfba5fd31
+unreachable commit 3a9eb4cb2882101e1ff92734b4057a4996ab2c6b
+
+$ git checkout -b t 3a9eb4cb2882101e1ff92734b4057a4996ab2c6b
+$ git log
+commit 3a9eb4cb2882101e1ff92734b4057a4996ab2c6b
+Merge: e39ad48 5895816
+Author: mofaph <mofaph@gmail.com>
+Date:   Thu Apr 26 14:24:28 2012 +0800
+
+    On master: test recover from git stash drop
+
+commit 5895816d11af466542ace82e6975d4ddfba5fd31
+Author: mofaph <mofaph@gmail.com>
+Date:   Thu Apr 26 14:24:28 2012 +0800
+
+    index on master: e39ad48 1st commit
+
+commit e39ad48961c4fdc1137bda057a0013bc07e927e5
+Author: mofaph <mofaph@gmail.com>
+Date:   Thu Apr 26 14:23:35 2012 +0800
+
+    1st commit
+
+$ git reset 5895816d11af466542ace82e6975d4ddfba5fd31
+$ git log
+commit 5895816d11af466542ace82e6975d4ddfba5fd31
+Author: mofaph <mofaph@gmail.com>
+Date:   Thu Apr 26 14:24:28 2012 +0800
+
+    index on master: e39ad48 1st commit
+
+commit e39ad48961c4fdc1137bda057a0013bc07e927e5
+Author: mofaph <mofaph@gmail.com>
+Date:   Thu Apr 26 14:23:35 2012 +0800
+
+    1st commit
+
+$ git reset --soft e39ad48961c4fdc1137bda057a0013bc07e927e5
+
+至此，我们就已经恢复了曾经丢弃的工作成果了。
