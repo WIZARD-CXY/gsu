@@ -1,0 +1,9 @@
+
+在这里，我们使用 happy_hacker 作为远程主机的一个用户名；gsu.git 作为远程主机的一
+个代码仓库。
+
+下面的命令可以创建一个可供他人拉取的代码仓库：
+
+    $ ssh happy_hacker@192.168.1.234 'mkdir /var/cache/git/happy_hacker; git init --bare /var/cache/git/happy_hacker/gsu.git'
+    $ git remote add origin happy_hacker@192.168.1.234:/var/cache/git/happy_hacker/gsu.git
+    $ git push -u origin master
