@@ -1,0 +1,38 @@
+
+* 在本地机器中新建一个代码仓库
+
+参见 git-simple-usage.txt
+
+* 在远程机器上新建一个裸仓库
+
+$ ssh your_username@remote-machine
+$ cd /var/cache/git
+$ mkdir your_username && cd your_username
+$ git init --bare repo-name.git
+$ exit
+
+上面的命令在远程机器上建立一个 Git 裸仓库。将相应的用户名和远程机器的名字替换为符
+合你的要求的用户名、机器名和裸仓库名。并且，假设远程机器上允许托管代码的目录是
+/var/cache/git
+
+比如，如果你在远程机器上的用户名是 happy_hacker，远程机器其实就是局域网中的一台机器，它
+的 ip 地址为：192.168.1.234。你想建立的仓库名字是 funny.git。这时，上面的命令就变
+成这样：
+
+$ ssh happy_hacker@192.168.1.234
+$ cd /var/cache/git
+$ mkdir happy_hacker && cd happy_hacker
+$ git init --bare funny.git
+$ exit
+
+* 将本地仓库的分支推送到新建的远程仓库
+
+$ cd your_project_path
+$ git remote add origin your_username@remote-machine:/var/cache/git/your_username/repo-name.git
+$ git push -u origin master
+
+上面的命令将本地的仓库的 master 分支推送到远程仓库中了，同时使本地的 master 分支
+追踪远程的 master 分支。
+
+同样，上面的命令需要将相应的本地仓库的路径、远程机器的用户名、远程仓库的仓库名替
+换为对应的名字。
