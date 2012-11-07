@@ -152,6 +152,50 @@ $ git merge crazy-idea
 
 $ git branch -d crazy-idea
 
+* 如何利用 Git 与他人合作开发？
+
+如果需要使用 Git 和他人合作开发，那么最好需要有一个存放代码的机器。合作者把代码
+推送到存放代码的机器上，同时在这个机器上拉取更新后的代码。
+
+假设现在我们有一台机器在内部网络中，它的地址是 192.168.1.234。在这台机器上，存放
+Git 仓库的目录是 /var/cache/git。
+
+假设现在我们有两个开发者，他们的名字分别叫做 apple 和 banana。apple 的代码仓库存
+放在远程机器的 /var/cache/git/apple 目录下，banana 的代码仓库存放在
+/var/cache/git/banana 目录下。
+
+现在，假设他们的代码仓库的名字叫做 code.git。那么在远程机器上，apple 和 banana
+的目录下都有一个这样的目录：
+
+    /var/cache/git/apple/code.git
+    /var/cache/git/banana/code.git
+
+** 建立远程代码仓库
+
+   $ ssh apple@192.168.1.234
+   $ cd /var/cache/git/apple
+   $ git init --bare code.git
+   $ exit
+
+** 推送代码到远程仓库中
+
+我们已 apple 为例，他需要追踪 banana 的仓库，同时更新他自己的代码仓库。banana 的
+代码仓库的地址是 192.168.1.234:/var/cache/git/banana/code.git，因为这个地址很长，
+每次都输入那么多的话，会很繁琐，因此我们可以给这个仓库取一个别名。
+
+    $ git remote add banana apple@192.168.1.234:/var/cache/git/banana/code.git
+    $ git remote add origin apple@192.168.1.234:/var/cache/git/apple/code.git
+
+    $ git push -u origin master
+
+** 从远程仓库中拉取代码
+
+   $ git fetch banana
+
+** 合并远程仓库的代码
+
+   $ git merge banana/master
+
 * 为什么你有时写“Git”，而有时又写“git”？
 
 Git 在大写的时候，我通常是想说版本控制系统；而在 git 下写时，我通常是指某个命令。
