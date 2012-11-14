@@ -17,7 +17,10 @@ $ git remote add private git@github.com:user/git.git
 $ git config remote.private.push refs/heads/me:refs/heads/master #1
 $ git config branch.me.remote private
 $ git config branch.me.merge refs/heads/master #2
+$ git config push.default upstream #3
 
 1. 使用本地的 me 分支更新远程仓库 private 的 master 分支
 2. 拉取后，将远程仓库的 master 分支合并到本地的 me 分支，这样也设置了 me 追踪
    master
+3. 推送到远程仓库的追踪分支，也就是 git pull 默认合并的分支。最好使用这种方法，
+   而不是使用第 1 中方法
