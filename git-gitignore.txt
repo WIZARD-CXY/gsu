@@ -1,0 +1,16 @@
+Git 会从下列地方读取要忽略的模式，按优先级顺序从第到高：
+
+    1. command line
+    2. project .gitignore
+    3. $GIT_DIR/info/exclude
+    4. core.excludesfile
+
+在 gitignore(5) 建议不同目的的忽略文件模式，应该放到不同的地方：
+
+    1. core.excludesfile: 备份文件和临时文件，在所有情况下都希望忽略的文件
+    2. .gitignore: 希望别人克隆的时候出现的忽略文件模式
+    3. $GIT_DIR/info/exclude: 特定项目目录希望忽略的文件
+
+参考资料：
+
+[1] gitignore(5)
