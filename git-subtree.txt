@@ -26,8 +26,8 @@ README 文件，在 river 仓库中有个 list 文件。
 
 $ cd /tmp/ocean
 $ git remote add origin username@machine:~/ocean.git
-$ git branch.master.remote origin
-$ git branch.master.merge refs/heads/master
+$ git config branch.master.remote origin
+$ git config branch.master.merge refs/heads/master
 $ git remote add river username@machine:~/river.git
 $ git fetch river
 $ git checkout -b river_branch river/master
