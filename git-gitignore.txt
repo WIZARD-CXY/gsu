@@ -1,4 +1,4 @@
-Git 会从下列地方读取要忽略的模式，按优先级顺序从第到高：
+Git 会从下列地方读取要忽略的模式，按优先级顺序从低到高：
 
     1. command line
     2. project .gitignore
