@@ -30,8 +30,7 @@ $ git config branch.master.remote origin
 $ git config branch.master.merge refs/heads/master
 $ git remote add river username@machine:~/river.git
 $ git fetch river
-$ git checkout -b river_branch river/master
-$ git checkout master
+$ git branch river_branch river/master
 $ git read-tree --prefix=river/ -u river_branch
 
 现在，我们的 ocean 仓库的 master 分支中，已经有了一个 river 的子目录，并且我们的
