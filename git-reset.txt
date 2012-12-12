@@ -6,8 +6,8 @@ git version 1.7.11.4
 
 $ git reset --mode <commit> # 1
 
-1. 注意，上面命令的 mode 的取值是 --hard, --mixed, --soft, --keep, --merged 其中
-   的一个。现在只介绍 --hard, --mixed, --soft。
+1. 注意，上面命令的 mode 的取值是 hard, mixed, soft, keep, merged 其中的一个。现
+   在只介绍 hard, mixed, soft。
 
    commit 是一个合法的提交引用。
 
