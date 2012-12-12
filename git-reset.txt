@@ -1,0 +1,149 @@
+
+这个文件说明 git-reset(1) 的用法
+
+$ git --version
+git version 1.7.11.4
+
+$ git reset --mode <commit> # 1
+
+1. 注意，上面命令的 mode 的取值是 --hard, --mixed, --soft, --keep, --merged 其中
+   的一个。现在只介绍 --hard, --mixed, --soft。
+
+   commit 是一个合法的提交引用。
+
+好了，有了这些预备知识。我们来模拟一个代码仓库。这个仓库有三次提交。在三次提交之
+后，我们修改一个文件，然后加入暂存区。最后，在工作目录中再次修改同一个文件。至此，
+代码仓库、暂存区和工作目录的状态都是不同的。
+
+$ mkdir /tmp/t
+$ cd /tmp/t
+$ git init
+$ echo "11111111" >> test
+$ git add test
+$ git commit -m "1st commit"
+$ echo "22222222" >> test
+$ git commit -a -m "2nd commit"
+$ echo "33333333" >> test
+$ git commit -a -m "3rd commit"
+$ echo "44444444" >> test
+$ git add test
+$ echo "55555555" >> test
+
+至此，我们已经拥有了一个和上面描述相符的代码仓库。假设现在工作目录的状态是 A，暂
+存区的状态是 B。三次提交的状态分别是 C、D、E。下面，我们来看看此时代码仓库的状态：
+
+$ git status
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   test
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   test
+#
+
+此时，代码仓库的简短日志是这样子的：
+
+$ git log --oneline
+eaf6eb9 3rd commit
+9960371 2nd commit
+c83bf57 1st commit
+
+我们已经知道了仓库中的状态和仓库的历史日志，现在就让我们来体会一下 git-reset(1)
+这个命令的三个不同的选项，将会完成什么具体的功能吧。
+
+$ git reset --hard 9960371 # 2
+
+2. 上面的命令将会把暂存区和工作目录的内容，都恢复成仓库中的 eaf6eb9 这个版本。也
+   就是 test 文件的内容将会变成：
+
+   11111111
+   22222222
+
+$ cat test
+11111111
+22222222
+
+$ git reset 9960371
+
+上面的命令默认是用 --mixed 选项的 git-reset 命令。现在工作目录的内容保持不变，而
+暂存区的内容将会被仓库中的 eaf6eb9  版本覆盖。
+
+$ git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   test
+#
+
+$ cat test
+11111111
+22222222
+33333333
+44444444
+55555555
+
+$ git reset --soft 9960371
+
+上面的命令没有改变暂存区和工作目录的内容，但是它改变了当前代码仓库的版本。
+
+$ git log --oneline
+9960371 2nd commit
+c83bf57 1st commit
+
+可以看到，仓库当前的版本已经回退到 9960371 这个版本了。
+
+$ git status
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   test
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   test
+#
+
+我们来看看暂存区的内容：
+
+$ git show :test
+11111111
+22222222
+33333333
+44444444
+
+再看看工作目录的内容：
+
+$ cat test
+11111111
+22222222
+33333333
+44444444
+55555555
+
+在结束对 git-reset(1) 三个参数的讨论之前，我们给出了一个图表以说明各个参数选项对
+工作目录、暂存区和代码仓库的状态的影响：
+
+================================================================================
+                T  W  S  R
+--hard          D  D  D  D
+--mixed         D  -  D  D
+--soft          D  -  -  D
+================================================================================
+
+W: Working Directory    工作目录
+S: Staged/Index         暂存区
+R: Repository           代码仓库
+T: Target               目标版本
+
+mofaph
+2012/12/12
