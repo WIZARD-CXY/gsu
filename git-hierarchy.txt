@@ -5,7 +5,7 @@ $ mkdir -v test
 $ cd test
 $ git init
 
-这时，当前目录下生成了一个隐藏目录“.git”，这个目录的内如如下：
+这时，当前目录下生成了一个隐藏目录“.git”，这个目录的内容如下：
 
 branches/    新版本的 Git 不再使用
 config       包含了项目特有的配置选项
