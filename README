@@ -1,2 +1,26 @@
 
 gsu - Git simple usage
+
+这个仓库记录了一些 Git 的简单用法，同时也记录了本人在学习和工作的过程遇到的关于使
+用 Git 的一些问题的解决方法。
+
+如何获取这个仓库？
+
+$ git clone git://github.com/mofaph/gsu.git
+
+我已经有了这个仓库，如何获取这个仓库的最新版本？
+
+假定你已经在这个仓库的顶层目录下。
+
+简单的方法，你的当前分支是 master 分支：
+
+$ git pull
+
+复杂的方法，你当前的分支不是 master：
+
+$ git remote add mofaph git://github.com/mofaph/gsu.git
+$ git fetch mofaph
+$ git push . mofaph/master:master
+
+mofaph
+2012/12/19
