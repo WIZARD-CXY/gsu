@@ -11,14 +11,27 @@ branches/    新版本的 Git 不再使用
 config       包含了项目特有的配置选项
 description  仅供 GitWeb 程序使用
 HEAD         指向当前分支
-hooks/       包住了客户端或服务端钩子脚本
+hooks/       客户端或服务端的钩子脚本，也就是进行某种操作可能会执行这些文件
 info/        保存了一份不希望在 .gitignore 文件中管理的忽略模式的全局可执行文件
 objects/     存储所有数据内容
 refs/        存储指向数据（分支）的提交对象的指针
 
-新版本的 Git 不再使用 branches 目录，description 文件仅供 GitWeb 程序使用。
-config 文件包含了项目特有的配置选项，info 目录保存了一份不希望在 .gitignore 文件
-中管理的忽略模式的全局可执行文件。hooks 目录包住了客户端或服务端钩子脚本。
+注意，hooks/ 目录下的文件都是可执行文件。如果你查看 .git/hooks/ 的目录内容，你会
+发现这个目录包含以下的文件：
+
+$ ls -1 .git/hooks
+applypatch-msg.sample
+commit-msg.sample
+post-update.sample
+pre-applypatch.sample
+pre-commit.sample
+pre-rebase.sample
+prepare-commit-msg.sample
+update.sample
+
+当需要使用这些钩子脚本时，需要去掉 .sample 后缀。并且需要确保这些脚本具有可执行
+权限。关于这些钩子脚本的说明，请查看参考资料中的第 3 和第 4 个。第 4 个链接可能
+需要使用 VPN 这些工具。
 
 如果往仓库中提交了内容，则仓库会发生变化：
 
@@ -26,24 +39,10 @@ $ echo "hello" >> hello
 $ git add .
 $ git commit -m "1st commit"
 
-这时，当前目录下“.git”目录的内容为：
-
-branches/       新版本的 Git 不再使用
-COMMIT_EDITMSG
-config          包含了项目特有的配置选项
-description     仅供 GitWeb 程序使用
-HEAD            指向当前分支
-hooks/          包含了客户端或服务端钩子脚本
-index           保存了暂存区域信息
-info/           保存了一份不希望在.gitignore文件中管理的忽略模式的全局可执行文件
-logs/
-objects/        存储所有数据内容
-refs/           存储指向数据（分支）的提交对象的指针
-
 现在的仓库新增了 2 个文件和 1 个目录：
 
 COMMIT_EDITMSG  最后一次提交的说明信息
-index           仓库的索引文件，通常不会出现在纯仓库
+index           暂存区信息。仓库的索引文件，通常不会出现在纯仓库
 logs/           记录对引用的修改
 
 当你的仓库经历了拉取、合并和恢复以后，在 .git 中将会出现以下的文件：
@@ -56,3 +55,5 @@ MERGE_HEAD      记录合并时的提交对象
 参考资料：
 [1] gitrepository-layout(5)
 [2] gitglossary(7)
+[3] githooks(5)
+[4] http://git-scm.com/book/zh/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git%E6%8C%82%E9%92%A9
