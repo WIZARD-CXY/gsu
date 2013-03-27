@@ -1,0 +1,18 @@
+
+core.logAllRefUpdates (false)
+    启用 ref。对一个引用更新将会被记录到“$GIT_DIR/logs/<ref>”，并且
+    会插入新的和旧的 SHA1 值，时间和更新的原因，但是只有当文件存在时才
+    生效。如果这个变量被设置为“true”，那么即使
+    “$GIT_DIR/logs/<ref>”这个文件不存在时，Git 也会创建这个文件。
+
+    在一个仓库存在工作目录的仓库里，这个值默认为 true。在纯仓库中，这
+    个值默认为 false。
+
+core.repositoryFormatVersion (0)
+    这个值用于说明仓库的格式和层次结构的版本。
+
+core.bare (true)
+    这个为 true 时，那么仓库将会被假定为纯仓库，没有工作目录和它关联。
+
+core.fileMode (true)
+    在 FAT 这样的文件系统很有用。
