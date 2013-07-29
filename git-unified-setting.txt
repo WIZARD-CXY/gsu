@@ -26,8 +26,9 @@ alias ls='ls --show-control-chars --auto'
 
 * git-status 不能显示中文                                     :Linux:Windows:
 
-Linux 下的解决方法：
+Linux 下的解决方法（如果没有 ascii2uni，则需先安装）：
 
+$ sudo apt-get install uni2ascii # Debian like
 $ git status | ascii2uni -a K
 
 缺点： 没有颜色高亮
