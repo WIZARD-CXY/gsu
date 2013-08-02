@@ -35,6 +35,29 @@ Git 中所说的工作目录，是指工程的根目录。Git 会将要提交的
 以通过命令告诉 git 你要直接放到仓库中；然后，Git 会将暂存区中的内容放到仓库中。
 当然这个过程需要你告诉 git 如何去做。
 
+* Git 的配置
+
+Git 的配置信息主要放在 ~/.gitconfig 和 .git/config。
+
+$ git config --global ui.color true
+$ git config --global alias.ci commit
+
+================================================================================
+
+[user]
+	name = username
+	email = username@skybility.com
+[color]
+	ui = true
+[alias]
+	ci = commit
+	co = checkout
+	st = status
+[core]
+	editor = emacs -nw -Q
+
+================================================================================
+
 * Git 的简单用法
 
 使用版本控制系统来对源码进行管理，通常是想对源码进行追踪，恢复到上一个良好的状
