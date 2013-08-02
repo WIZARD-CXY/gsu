@@ -17,9 +17,10 @@ $ man git-tutorial
 $ man git-tutorial-2
 #+END_SRC
 
-参考阅读：
-[1] 《Pro Git》
-[2] 《Git Magic》
+[1] [[http://www.git-scm.com/book][Pro Git]]
+[2] [[http://git.oschina.net/progit/][Pro Git中文版]]
+[3] [[http://www-cs-students.stanford.edu/~blynn/gitmagic/intl/zh_cn/][Git Magic中文版]]
+[4] [[https://www.kernel.org/pub/software/scm/git/docs/user-manual.html][Git用户手册]]
 
 * Git 的一些基本概念
 
