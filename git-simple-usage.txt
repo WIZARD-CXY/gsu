@@ -12,8 +12,10 @@ Git 被开发出来是为了管理 Linux 内核的源代码，它的首要作者
 
 看 man page，阅读 Git 用户手册。可能你想看看这几个页面：
 
+#+BEGIN_SRC SHELL
 $ man git-tutorial
 $ man git-tutorial-2
+#+END_SRC
 
 参考阅读：
 [1] 《Pro Git》
@@ -21,6 +23,7 @@ $ man git-tutorial-2
 
 * Git 的一些基本概念
 
+#+BEGIN_SRC TEXT
 o 仓库（Repository）
 o 暂存区（Index）
 o 工作目录（Working directory）
@@ -28,6 +31,7 @@ o 工作目录（Working directory）
 仓库：存放源码变更的地方，通常是在工程目录下的“.git”目录
 暂存区：Git 用来暂时存放变更的地方
 工作目录：通常是在工程的根目录下（顶层目录）
+#+END_SRC
 
 * Git 的工作流程
 
@@ -39,11 +43,12 @@ Git 中所说的工作目录，是指工程的根目录。Git 会将要提交的
 
 Git 的配置信息主要放在 ~/.gitconfig 和 .git/config。
 
+#+BEGIN_SRC SHELL
 $ git config --global ui.color true
 $ git config --global alias.ci commit
+#+END_SRC
 
-================================================================================
-
+#+BEGIN_SRC TEXT
 [user]
 	name = username
 	email = username@skybility.com
@@ -55,8 +60,7 @@ $ git config --global alias.ci commit
 	st = status
 [core]
 	editor = emacs -nw -Q
-
-================================================================================
+#+END_SRC
 
 * Git 的简单用法
 
@@ -69,45 +73,61 @@ $ git config --global alias.ci commit
 
 ** 新建仓库
 
+#+BEGIN_SRC SHELL
 $ git init
+#+END_SRC
 
 ** 追踪源码文件
 
+#+BEGIN_SRC SHELL
 $ git add
+#+END_SRC
 
 一个有用的技巧是，每次编辑修改代码的时候，可能只想 Git 追踪它之前追踪的文件，也
 就是之前提交过的文件。可能这样做：
 
+#+BEGIN_SRC SHELL
 $ git add -u
+#+END_SRC
 
 ** 加入仓库中
 
+#+BEGIN_SRC SHELL
 $ git commit
+#+END_SRC
 
 这时会 Git 会调用文本编辑器，以供你输入一些说明信息。Git 默认调用的是 Vim 编辑
 器，你也可以配置 Git 以改变默认调用的编辑器。通过对以下这个 Git 变量进行设置：
 
+#+BEGIN_SRC SHELL
 $ git config --global core.editor emacs
 $ git config --global core.editor nano
+#+END_SRC
 
 ** 回退源码版本
 
 可能你现在这个版本中遇到了麻烦，你想回退到上一个版本中：
 
+#+BEGIN_SRC SHELL
 $ git reset --hard HEAD~1
+#+END_SRC
 
 这样，会回退到上一个版本，如果你想回退 n 个版本：
 
+#+BEGIN_SRC SHELL
 $ git reset --hard HEAD~n
+#+END_SRC
 
 不过，这是一个危险的命令，因为它会摧毁你当前所做的所有修改。关于 git-reset(1) 的
 详细用法，请查看 git-reset.txt。
 
 ** 比较修改的差异
 
+#+BEGIN_SRC SHELL
 $ git diff
 $ git diff HEAD
 $ git diff --cached
+#+END_SRC
 
 上面提到了“仓库”，“暂存区”和“工作目录”的概念。那么，“git diff”是比较工作
 目录和暂存区的差异；“git diff HEAD”是比较工作目录和仓库的差异；“git diff
@@ -119,34 +139,46 @@ $ git diff --cached
 甚至不记得你具体修改了哪个文件，这时你可能想看看你刚才都在忙了一些什么东西。没问
 题，你可以这样：
 
+#+BEGIN_SRC SHELL
 $ git diff
+#+END_SRC
 
 之后，你告诉 Git，将这些内容放到暂存区：
 
+#+BEGIN_SRC SHELL
 $ git add -u
+#+END_SRC
 
 你又回去继续编码，完成了一些功能。你想知道现在的修改和之前仓库里的版本有什么不同：
 
+#+BEGIN_SRC SHELL
 $ git diff HEAD
+#+END_SRC
 
 有可能，你想知道现在所做的修改和暂存区里的不同：
 
+#+BEGIN_SRC SHELL
 $ git diff --cached
+#+END_SRC
 
 ** 提交说明的建议写法
 
 以总结性的一行开头，这一行不得超过 25 个字；随后空一行，然后填写需要说明的信息。
 例如：
 
+#+BEGIN_SRC TEXT
 增加消息接收函数
 
 这里填写为什么增加这个函数，为什么这个修改是必要的。说明这个函数的细节。
+#+END_SRC
 
 ** 查看提交日志
 
+#+BEGIN_SRC SHELL
 $ git log # 查看日志
 $ git log -p # 查看日志时包含补丁
 $ git log --oneline # 只查看一行
+#+END_SRC
 
 ** Git 的必杀技，分支特性
 
@@ -154,23 +186,29 @@ $ git log --oneline # 只查看一行
 前，你可能会复制一份完整的代码在其他地方，然后再安心地工作。Git 这样的版本控制系
 统给了一个不错的解决方法：
 
+#+BEGIN_SRC SHELL
 $ git branch crazy-idea (1)
 $ git checkout crazy-idea (2)
 
 (1) 创建一个新的分支
 (2) 切换到这个分支继续工作，这个分支完全不会影响你以前的工作！
+#+END_SRC
 
 噢哦，你竟然完成了那个不可能实现的工作，测试通过后，那么赶快合并到主分支吧：
 
+#+BEGIN_SRC SHELL
 $ git checkout master
 $ git merge crazy-idea
+#+END_SRC
 
 可能这里你会遇到麻烦，就是……就是……就是……你会遇到冲突……通常的解决方法是，
 采用某一个分支的，或者重写。
 
 之前的分支没用了，可能你想删掉：
 
+#+BEGIN_SRC SHELL
 $ git branch -d crazy-idea
+#+END_SRC
 
 * 如何利用 Git 与他人合作开发？
 
@@ -192,10 +230,12 @@ Git 仓库的目录是 /var/cache/git。
 
 ** 建立远程代码仓库
 
+#+BEGIN_SRC SHELL
    $ ssh apple@192.168.1.234
    $ cd /var/cache/git/apple
    $ git init --bare code.git
    $ exit
+#+END_SRC
 
 ** 推送代码到远程仓库中
 
@@ -203,18 +243,24 @@ Git 仓库的目录是 /var/cache/git。
 代码仓库的地址是 192.168.1.234:/var/cache/git/banana/code.git，因为这个地址很长，
 每次都输入那么多的话，会很繁琐，因此我们可以给这个仓库取一个别名。
 
+#+BEGIN_SRC SHELL
     $ git remote add banana apple@192.168.1.234:/var/cache/git/banana/code.git
     $ git remote add origin apple@192.168.1.234:/var/cache/git/apple/code.git
 
     $ git push -u origin master
+#+END_SRC
 
 ** 从远程仓库中拉取代码
 
+#+BEGIN_SRC SHELL
    $ git fetch banana
+#+END_SRC
 
 ** 合并远程仓库的代码
 
+#+BEGIN_SRC SHELL
    $ git merge banana/master
+#+END_SRC
 
 * 为什么你有时写“Git”，而有时又写“git”？
 
