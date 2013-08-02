@@ -385,3 +385,20 @@ git log 的话使用一个现成的仓库介绍，比如 Git 本身的仓库。
 * 为什么你有时写“Git”，而有时又写“git”？
 
 在大写的时候，我通常是想说版本控制系统；而在小写时侯，我通常是指某个命令。
+
+* 如何获得这份文档的最新版本？
+
+这份文档是 gsu 这个仓库的一部分，托管在 Github 上面：
+
+        https://github.com/mofaph/gsu
+
+这份文档是通过 Emacs 的 Org-mode 导出为 html 的。所以，如果你需要导出为 html 的
+话，可以使用 Emacs 打开这个文档，输入以下的命令：
+
+#+BEGIN_SRC ELISP
+        ;; M-x 表示同时按下 Alt 和 x 键
+        M-x org-export-as-html
+#+END_SRC
+
+如果你没有 Emacs，那么只是看这份文档的纯文本也不会有什么问题。导出的文件只是读起
+来更舒服一点。
