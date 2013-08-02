@@ -1,3 +1,5 @@
+#+LATEX_HEADER: \usepackage{xeCJK}
+#+LATEX_HEADER: \setCJKmainfont{文泉驿微米黑}
 
 * 什么是 Git？
 
