@@ -262,6 +262,125 @@ Git 仓库的目录是 /var/cache/git。
    $ git merge banana/master
 #+END_SRC
 
+* 模拟实际的工作过程
+
+** 主要介绍如下的命令的使用：
+
+#+BEGIN_SRC SHELL
+        o init
+        o status
+        o add
+        o diff
+        o commit
+        o log
+
+        o branch
+        o checkout
+        o grep
+        o tag
+        o remote
+
+        o fetch
+        o push
+        o merge
+#+END_SRC
+
+下面的操作假定是在自己的本机中进行操作。
+
+#+BEGIN_SRC TEXT
+使用 Git 常见的操作流程如下：
+
+              -<<--解决错误-
+              v        ^
+编写代码 ==> 加入暂存区 ==> 提交到仓库
+  ^                   v
+  `-----<<-------<<---/
+#+END_SRC
+
+** 常见操作
+
+现在，从新建一个代码仓库开始。
+
+#+BEGIN_SRC SHELL
+user1> mkdir hello
+user1> cd hello
+user1> git init
+user1> echo 'main(){printf("hello");}' > main.c
+user1> git status # 在这里介绍 color.ui
+user1> git add main.c
+user1> git commit -m "init" # 在这里介绍 core.editor 的设置，同时介绍 --amend
+#+END_SRC
+
+#+BEGIN_SRC SHELL
+# user1 在推送之后，继续工作，增加新的功能
+user1> git branch feature-1 master
+user1> # 编辑 main.c 文件
+user1> git add -u
+user1> git commit -m "2nd commit"
+user1> # 继续编辑 main.c 文件，在这里暂存区是已修改的状态
+#+END_SRC
+
+从这里开始在远程建立一个裸仓库，同时将代码推送上去：
+
+#+BEGIN_SRC SHELL
+user1> ssh username@machine 'git init --bare ~/hello.git'
+# 这里介绍 remote 子命令的用法：set-url rename remove
+user1> git remote add origin user1@machine:/work/projects/hello.git
+user1> git push -u origin master
+#+END_SRC
+
+现在另外一个人，把代码拉取下来，然后增加一个新的功能：
+
+#+BEGIN_SRC SHELL
+user2> git clone user2@machine:/work/projects/hello.git
+user2> cd hello
+user2> git branch new_branch master
+user2> git checkout new_branch # 这里介绍配置简写
+user2> # 编辑 main.c，加入新的功能
+user2> git add -u # 在这里介绍 ./-p
+user2> git commit
+user2> git push origin new_branch
+#+END_SRC
+
+user1 拉取仓库的内容，在这里介绍 rebase log stash 操作：
+
+#+BEGIN_SRC SHELL
+user1> git fetch origin
+user1> git branch -r # 查看远程分支
+user1> git log --oneline --left-right feature-1...origin/new_branch
+user1> git stash save "stage 1"
+user1> git rebase origin/new_branch # 在这里介绍如何解决冲突
+user1> git stash apply # 介绍 list 等操作
+
+user1> # 继续编辑 main.c
+user1> git add -u
+user1> git commit -m "third commit"
+user1> git push . HEAD:master
+user1> git push origin master
+user1> git checkout master
+user1> git branch -d feature-1
+#+END_SRC
+
+#+BEGIN_SRC SHELL
+user2> git fetch origin
+user2> git checkout master
+user2> git branch -d new_branch
+user2> git push origin :new_branch # 介绍如何删除远程分支
+user2> git tag v1.0 # 介绍如何打标签
+#+END_SRC
+
+#+BEGIN_SRC SHELL
+user1> git checkout -b feature-2 master
+user1> # 编辑 main.c
+user1> git add -u
+user1> # 继续编辑 main.c
+user1> git diff # 在这里介绍 diff
+user1> git grep main # 在这里介绍 grep
+user1> git reset HEAD # 在这里介绍 reset
+#+END_SRC
+
+git log 的话使用一个现成的仓库介绍，比如 Git 本身的仓库。
+
 * 为什么你有时写“Git”，而有时又写“git”？
 
 在大写的时候，我通常是想说版本控制系统；而在小写时侯，我通常是指某个命令。
